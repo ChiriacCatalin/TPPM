@@ -15,6 +15,7 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   int value = 1;
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
+  final _scrollControler = ScrollController();
 
   @override
   void dispose() async {
@@ -46,33 +47,66 @@ class MyAppState extends State<MyApp> {
                 return Text(displayTime); //add style
               }),
           Padding(
-              padding: EdgeInsets.symmetric(vertical: 3),
-              child: ElevatedButton(
-                  onPressed: () {
-                    _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-                  },
-                  child: Text('Start'))),
-          ElevatedButton(
-              onPressed: () {
-                _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-              },
-              child: Text('Stop')),
-          ElevatedButton(
-              onPressed: () {
-                _stopWatchTimer.onExecute.add(StopWatchExecute.lap);
-              },
-              child: Text('Lap')),
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                        },
+                        child: Text('Start'))),
+                ElevatedButton(
+                    onPressed: () {
+                      _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                    },
+                    child: Text('Stop'))
+              ])),
           ElevatedButton(
               onPressed: () {
                 _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
               },
-              child: Text('Reset'))
-        ]));
-  }
+              child: Text('Reset')),
+          Padding(
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: ElevatedButton(
+                  onPressed: () {
+                    _stopWatchTimer.onExecute.add(StopWatchExecute.lap);
+                  },
+                  child: Text('Lap'))),
+          SizedBox(
+              height: 200,
+              child: StreamBuilder<List<StopWatchRecord>>(
+                stream: _stopWatchTimer.records,
+                initialData: const [],
+                builder: (context, snap) {
+                  final value = snap.data ?? [];
 
-  void onButtonPressed() {
-    setState(() {
-      value = Random().nextInt(100);
-    });
+                  Future.delayed(const Duration(milliseconds: 200), () {
+                    _scrollControler.animateTo(
+                        _scrollControler.position.maxScrollExtent,
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeOut);
+                  });
+                  return ListView.builder(
+                      controller: _scrollControler,
+                      itemBuilder: (BuildContext context, int index) {
+                        final data = value[index];
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child:
+                                  Text('${index + 1}  -  ${data.displayTime}'),
+                            ),
+                            const Divider(height: 2)
+                          ],
+                        );
+                      },
+                      itemCount: value.length);
+                },
+              ))
+        ]));
   }
 }

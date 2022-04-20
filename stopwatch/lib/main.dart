@@ -44,37 +44,62 @@ class MyAppState extends State<MyApp> {
                 final value = snap.data ?? this.value;
                 final displayTime =
                     StopWatchTimer.getDisplayTime(value, hours: true);
-                return Text(displayTime); //add style
+                return Text(
+                  displayTime,
+                  style: const TextStyle(
+                      fontSize: 45, fontWeight: FontWeight.bold),
+                ); //add style
               }),
           Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.fromLTRB(0, 25, 0, 20),
               child:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
                     child: ElevatedButton(
                         onPressed: () {
                           _stopWatchTimer.onExecute.add(StopWatchExecute.start);
                         },
-                        child: Text('Start'))),
+                        child:
+                            Text('Start', style: const TextStyle(fontSize: 25)),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 15),
+                        ))),
                 ElevatedButton(
                     onPressed: () {
                       _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
                     },
-                    child: Text('Stop'))
+                    child: Text('Stop', style: const TextStyle(fontSize: 25)),
+                    style: ElevatedButton.styleFrom(
+                      primary: Color.fromARGB(255, 255, 78, 65),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 15),
+                    ))
               ])),
           ElevatedButton(
               onPressed: () {
                 _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
               },
-              child: Text('Reset')),
+              child: Text('Reset', style: const TextStyle(fontSize: 25)),
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 147, 150, 147),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              )),
           Padding(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
               child: ElevatedButton(
                   onPressed: () {
                     _stopWatchTimer.onExecute.add(StopWatchExecute.lap);
                   },
-                  child: Text('Lap'))),
+                  child: Text('Lap', style: const TextStyle(fontSize: 25)),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 147, 150, 147),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 15),
+                  ))),
           SizedBox(
               height: 200,
               child: StreamBuilder<List<StopWatchRecord>>(
@@ -97,8 +122,9 @@ class MyAppState extends State<MyApp> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8),
-                              child:
-                                  Text('${index + 1}  -  ${data.displayTime}'),
+                              child: Text(
+                                  '${index + 1}  -  ${data.displayTime}',
+                                  style: const TextStyle(fontSize: 25)),
                             ),
                             const Divider(height: 2)
                           ],

@@ -45,11 +45,28 @@ class MyAppState extends State<MyApp> {
                     StopWatchTimer.getDisplayTime(value, hours: true);
                 return Text(displayTime); //add style
               }),
+          Padding(
+              padding: EdgeInsets.symmetric(vertical: 3),
+              child: ElevatedButton(
+                  onPressed: () {
+                    _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                  },
+                  child: Text('Start'))),
           ElevatedButton(
               onPressed: () {
-                _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
               },
-              child: Text('Start'))
+              child: Text('Stop')),
+          ElevatedButton(
+              onPressed: () {
+                _stopWatchTimer.onExecute.add(StopWatchExecute.lap);
+              },
+              child: Text('Lap')),
+          ElevatedButton(
+              onPressed: () {
+                _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+              },
+              child: Text('Reset'))
         ]));
   }
 

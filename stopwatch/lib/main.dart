@@ -16,6 +16,7 @@ class MyAppState extends State<MyApp> {
   int value = 1;
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
   final _scrollControler = ScrollController();
+  String button_text = 'Start';
 
   @override
   void dispose() async {
@@ -60,8 +61,8 @@ class MyAppState extends State<MyApp> {
                         onPressed: () {
                           _stopWatchTimer.onExecute.add(StopWatchExecute.start);
                         },
-                        child:
-                            Text('Start', style: const TextStyle(fontSize: 25)),
+                        child: Text(button_text,
+                            style: const TextStyle(fontSize: 25)),
                         style: ElevatedButton.styleFrom(
                           primary: Colors.green,
                           padding: const EdgeInsets.symmetric(
@@ -70,6 +71,9 @@ class MyAppState extends State<MyApp> {
                 ElevatedButton(
                     onPressed: () {
                       _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                      setState(() {
+                        button_text = 'Resume';
+                      });
                     },
                     child: Text('Stop', style: const TextStyle(fontSize: 25)),
                     style: ElevatedButton.styleFrom(
@@ -81,6 +85,9 @@ class MyAppState extends State<MyApp> {
           ElevatedButton(
               onPressed: () {
                 _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+                setState(() {
+                  button_text = 'Start';
+                });
               },
               child: Text('Reset', style: const TextStyle(fontSize: 25)),
               style: ElevatedButton.styleFrom(
